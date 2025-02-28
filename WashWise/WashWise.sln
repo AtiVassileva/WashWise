@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WashWise.Web", "WashWise.Web\WashWise.Web.csproj", "{36CF9C94-BB45-40AB-8121-2D4976B81013}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAE2BFF7-59B4-4F70-9063-3A330D1E70DE} = {DAE2BFF7-59B4-4F70-9063-3A330D1E70DE}
+		{EBDB6309-3A25-412A-9A5F-ED348BA7ED88} = {EBDB6309-3A25-412A-9A5F-ED348BA7ED88}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WashWise.Data", "WashWise.Data\WashWise.Data.csproj", "{EBDB6309-3A25-412A-9A5F-ED348BA7ED88}"
 EndProject

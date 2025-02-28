@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace WashWise.Web.Data
+namespace WashWise.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
