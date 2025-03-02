@@ -13,7 +13,7 @@ namespace WashWise.Web.Infrastructure
             using var scopedServices = app.ApplicationServices.CreateScope();
             var serviceProvider = scopedServices.ServiceProvider;
 
-            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            var dbContext = serviceProvider.GetRequiredService<WashWiseDbContext>();
 
             MigrateDatabase(dbContext);
 
@@ -24,12 +24,12 @@ namespace WashWise.Web.Infrastructure
             return app;
         }
 
-        private static void MigrateDatabase(ApplicationDbContext dbContext)
+        private static void MigrateDatabase(WashWiseDbContext dbContext)
         {
             dbContext.Database.Migrate();
         }
 
-        private static void SeedConditions(ApplicationDbContext dbContext)
+        private static void SeedConditions(WashWiseDbContext dbContext)
         {
             if (dbContext.Conditions.Any())
             {
@@ -47,7 +47,7 @@ namespace WashWise.Web.Infrastructure
             dbContext.SaveChanges();
         }
 
-        private static void SeedStatuses(ApplicationDbContext dbContext)
+        private static void SeedStatuses(WashWiseDbContext dbContext)
         {
             if (dbContext.Statuses.Any())
             {

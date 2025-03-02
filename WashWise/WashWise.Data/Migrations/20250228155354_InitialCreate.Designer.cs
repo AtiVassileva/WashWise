@@ -11,7 +11,7 @@ using WashWise.Data;
 
 namespace WashWise.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(WashWiseDbContext))]
     [Migration("20250228155354_InitialCreate")]
     partial class InitialCreate
     {

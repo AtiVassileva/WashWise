@@ -4,12 +4,12 @@ using WashWise.Models;
 
 namespace WashWise.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class WashWiseDbContext : IdentityDbContext
     {
-        public ApplicationDbContext()
+        public WashWiseDbContext()
         {
         }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public WashWiseDbContext(DbContextOptions<WashWiseDbContext> options)
             : base(options)
         {
         }
