@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using WashWise.Data;
 using WashWise.Models;
 using static WashWise.Web.Common.CommonConstants;
@@ -8,7 +9,7 @@ namespace WashWise.Web.Infrastructure
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder PrepareDatabase(this IApplicationBuilder app)
+        public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)
         {
             using var scopedServices = app.ApplicationServices.CreateScope();
             var serviceProvider = scopedServices.ServiceProvider;
@@ -19,7 +20,7 @@ namespace WashWise.Web.Infrastructure
 
             SeedConditions(dbContext);
             SeedStatuses(dbContext);
-            SeedAdministrator(serviceProvider);
+            await SeedRolesAsync(serviceProvider);
 
             return app;
         }
@@ -66,39 +67,40 @@ namespace WashWise.Web.Infrastructure
             dbContext.SaveChanges();
         }
 
-        private static void SeedAdministrator(IServiceProvider serviceProvider)
+        public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider
-                .GetRequiredService<UserManager<IdentityUser>>();
-            var roleManager = serviceProvider
-                .GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            Task.Run(async () =>
+            string[] roles = { UserRoleName, AdministratorRoleName };
+            foreach (var roleName in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
                 {
-                    if (await roleManager.RoleExistsAsync(AdministratorRoleName))
-                    {
-                        return;
-                    }
+                    await roleManager.CreateAsync(new IdentityRole { Name = roleName });
+                }
+            }
 
-                    var role = new IdentityRole { Name = AdministratorRoleName };
+            const string adminEmail = "admin@abv.bg";
+            var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
 
-                    await roleManager.CreateAsync(role);
+            if (existingAdmin == null)
+            {
+                const string adminPassword = "admin123";
 
-                    const string adminEmail = "admin@abv.bg";
-                    const string adminPassword = "admin123";
+                var admin = new IdentityUser
+                {
+                    Email = adminEmail,
+                    UserName = adminEmail
+                };
 
-                    var user = new IdentityUser
-                    {
-                        Email = adminEmail,
-                        UserName = adminEmail,
-                    };
+                var result = await userManager.CreateAsync(admin, adminPassword);
 
-                    await userManager.CreateAsync(user, adminPassword);
-                    await userManager.AddToRoleAsync(user, role.Name);
-
-                })
-                .GetAwaiter()
-                .GetResult();
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, AdministratorRoleName);
+                }
+            }
         }
     }
 }

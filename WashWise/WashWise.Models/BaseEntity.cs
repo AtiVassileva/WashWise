@@ -11,5 +11,8 @@ namespace WashWise.Models
         [Required]
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
+
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime LastModifiedOn { get; set; }
     }
 }
