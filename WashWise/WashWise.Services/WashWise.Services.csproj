@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WashWise.Data\WashWise.Data.csproj" />
+    <ProjectReference Include="..\WashWise.Models\WashWise.Models.csproj" />
+  </ItemGroup>
+
 </Project>

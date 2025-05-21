@@ -1,0 +1,11 @@
+﻿@model BuildingSelectionViewModel
+
+<h2>Изберете помещение</h2>
+
+<form asp-action="ShowMachines" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.SelectedBuildingId">Блок</label>
+        <select asp-for="@Model.SelectedBuildingId" asp-items="@Model.Buildings" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Напред</button>
+</form>

@@ -83,31 +83,54 @@ namespace WashWise.Data
                 .WithMany()
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<ActivityLog>()
+                .Property(e => e.VersionNo)
+                .IsConcurrencyToken();
+
+             builder.Entity<Building>()
+                .Property(e => e.VersionNo)
+                .IsConcurrencyToken();
+
+             builder.Entity<Condition>()
+                 .Property(e => e.VersionNo)
+                 .IsConcurrencyToken();
+
+             builder.Entity<Report>()
+                 .Property(e => e.VersionNo)
+                 .IsConcurrencyToken();
+
+             builder.Entity<Reservation>()
+                 .Property(e => e.VersionNo)
+                 .IsConcurrencyToken();
+
+             builder.Entity<Status>()
+                 .Property(e => e.VersionNo)
+                 .IsConcurrencyToken();
+
+             builder.Entity<WashingMachine>()
+                 .Property(e => e.VersionNo)
+                 .IsConcurrencyToken();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var entries = ChangeTracker.Entries<BaseEntity>();
-
-            foreach (var entry in entries)
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
             {
-                switch (entry.State)
+                if (entry.State == EntityState.Added)
                 {
-                    case EntityState.Added:
-                        entry.Entity.CreatedOn = DateTime.UtcNow;
-                        entry.Entity.LastModifiedOn = DateTime.UtcNow;
-                        entry.Entity.VersionNo = 1;
-                        break;
-
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedOn = DateTime.UtcNow;
-                        entry.Entity.VersionNo += 1;
-                        break;
+                    entry.Entity.CreatedOn = DateTime.UtcNow;
+                    entry.Entity.LastModifiedOn = DateTime.UtcNow;
+                    entry.Entity.VersionNo = 1;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.LastModifiedOn = DateTime.UtcNow;
+                    entry.Entity.VersionNo += 1;
                 }
             }
 
             return await base.SaveChangesAsync(cancellationToken);
         }
-
     }
 }

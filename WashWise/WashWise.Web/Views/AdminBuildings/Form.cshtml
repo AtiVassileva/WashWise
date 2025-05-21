@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BuildingFormViewModel
+
+@{
+    var title = Model != null && Model.Id != Guid.Empty ? "Редактирай блок" : "Създай блок";
+    var action = Model != null && Model.Id != Guid.Empty ? "Edit" : "Create";
+}
+
+<p class="m-0 mt-2 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2">
+    @title
+</p>
+
+<p class="text-danger">@ViewData["Error"]</p>
+
+<form asp-action="@action" method="post">
+    <input type="hidden" asp-for="VersionNo" />
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Name">Име на блок / номер</label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address">Адрес</label>
+        <input asp-for="Address" class="form-control"/>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="City">Град</label>
+        <input asp-for="City" class="form-control"/>
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success mt-2" style="color: #fff;">Запази</button>
+</form>

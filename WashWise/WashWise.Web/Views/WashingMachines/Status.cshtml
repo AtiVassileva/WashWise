@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WashingMachineAvailabilityViewModel>
+
+<h2>Състояние на пералните машини</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Модел</th>
+        <th>Статус</th>
+        <th>Заета до</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var machine in Model)
+    {
+        <tr>
+            <td>@machine.Model</td>
+            <td>@machine.Condition</td>
+            <td>@(machine.OccupiedUntil?.ToString("HH:mm") ?? "-")</td>
+            <td>
+                @if (machine.IsAvailable)
+                {
+                    <form asp-controller="Reservation" asp-action="Create" method="post">
+                        <input type="hidden" name="machineId" value="@machine.WashingMachineId" />
+                        <button type="submit" class="btn btn-success">Резервирай</button>
+                    </form>
+                }
+                else
+                {
+                    <span class="text-muted">Неразрешено</span>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
