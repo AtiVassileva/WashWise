@@ -16,6 +16,6 @@ namespace WashWise.Models
         public Guid ReportId { get; set; }
         public Report? Report { get; set; }
 
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     }
 }

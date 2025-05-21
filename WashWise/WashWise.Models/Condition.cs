@@ -1,6 +1,6 @@
 ﻿namespace WashWise.Models
 {
-    public class Condition : BaseEntity
+    public class Condition : NamedEntity
     {
     }
 }

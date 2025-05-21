@@ -69,8 +69,7 @@ namespace WashWise.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, UserRoleName);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect("/");
+                    return Redirect("/Identity/Account/Login");
                 }
 
                 foreach (var error in result.Errors)

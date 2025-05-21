@@ -1,6 +1,6 @@
 ﻿namespace WashWise.Models
 {
-    public class Status : BaseEntity
+    public class Status : NamedEntity
     {
     }
 }
