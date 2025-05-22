@@ -3,12 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using WashWise.Data;
 using WashWise.Models;
+using WashWise.Services;
+using WashWise.Services.Contracts;
 using static WashWise.Web.Common.CommonConstants;
 
 namespace WashWise.Web.Infrastructure
 {
     public static class ApplicationBuilderExtensions
     {
+        public static void RegisterServicesCollection(this WebApplicationBuilder builder)
+        {
+            builder.Services
+                .AddTransient<IBuildingService, BuildingService>()
+                .AddTransient<IWashingMachineService, WashingMachineService>()
+                .AddTransient<IConditionService, ConditionService>();
+        }
+
         public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)
         {
             using var scopedServices = app.ApplicationServices.CreateScope();
@@ -39,9 +49,9 @@ namespace WashWise.Web.Infrastructure
 
             var conditions = new List<Condition>
             {
-                new () { Name = "Available" },
-                new () { Name = "Booked" },
-                new () { Name = "Damaged" },
+                new () { Name = "Свободна" },
+                new () { Name = "Заета" },
+                new () { Name = "Повредена" },
             };
 
             dbContext.Conditions.AddRange(conditions);
@@ -57,10 +67,10 @@ namespace WashWise.Web.Infrastructure
 
             var statuses = new List<Status>
             {
-                new() { Name = "In Progress" },
-                new() { Name = "Upcoming" },
-                new() { Name = "Cancelled" },
-                new() { Name = "Completed" },
+                new() { Name = "В прогрес" },
+                new() { Name = "Предстояща" },
+                new() { Name = "Канселирана" },
+                new() { Name = "Приключена" }
             };
 
             dbContext.Statuses.AddRange(statuses);

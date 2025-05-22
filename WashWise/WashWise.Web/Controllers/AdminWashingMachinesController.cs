@@ -1,105 +1,107 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using WashWise.Data;
 using WashWise.Models;
+using WashWise.Services.Contracts;
+using WashWise.Web.Models;
 
 namespace WashWise.Web.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class AdminWashingMachinesController : Controller
     {
-        private readonly WashWiseDbContext _context;
+        private readonly IBuildingService _buildingService;
+        private readonly IConditionService _conditionService;
+        private readonly IWashingMachineService _washingMachineService;
+        private readonly IMapper _mapper;
 
-        public AdminWashingMachinesController(WashWiseDbContext context)
+        public AdminWashingMachinesController(IWashingMachineService washingMachineService, IMapper mapper, IBuildingService buildingService, IConditionService conditionService)
         {
-            _context = context;
+            _washingMachineService = washingMachineService;
+            _mapper = mapper;
+            _buildingService = buildingService;
+            _conditionService = conditionService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var machines = await _context.WashingMachines
-                .Include(m => m.Building)
-                .Include(m => m.Condition)
-                .ToListAsync();
-
-            return View(machines);
+            var machines = await _washingMachineService.GetAllAsync();
+            var model = _mapper.Map<List<WashingMachineViewModel>>(machines);
+            return View(model);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["Buildings"] = new SelectList(_context.Buildings, "Id", "Address");
-            ViewData["Conditions"] = new SelectList(_context.Conditions, "Id", "Name");
-            return View();
+            var model = new WashingMachineFormModel();
+            await PopulateDropdownsAsync(model);
+            return View("Form", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(WashingMachine machine)
+        public async Task<IActionResult> Create(WashingMachineFormModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.WashingMachines.Add(machine);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await PopulateDropdownsAsync(model);
+                return View("Form", model);
             }
 
-            ViewData["Buildings"] = new SelectList(_context.Buildings, "Id", "Address", machine.BuildingId);
-            ViewData["Conditions"] = new SelectList(_context.Conditions, "Id", "Name", machine.ConditionId);
-            return View(machine);
+            var entity = _mapper.Map<WashingMachine>(model);
+            await _washingMachineService.CreateAsync(entity);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var machine = await _context.WashingMachines.FindAsync(id);
+            var machine = await _washingMachineService.GetByIdAsync(id);
             if (machine == null) return NotFound();
 
-            ViewData["Buildings"] = new SelectList(_context.Buildings, "Id", "Address", machine.BuildingId);
-            ViewData["Conditions"] = new SelectList(_context.Conditions, "Id", "Name", machine.ConditionId);
-            return View(machine);
+            var model = _mapper.Map<WashingMachineFormModel>(machine);
+            await PopulateDropdownsAsync(model);
+
+            return View("Form", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, WashingMachine machine)
+        public async Task<IActionResult> Edit(Guid id, WashingMachineFormModel model)
         {
-            if (id != machine.Id) return NotFound();
+            if (id != model.Id) return NotFound();
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Update(machine);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await PopulateDropdownsAsync(model);
+                return View("Form", model);
             }
 
-            ViewData["Buildings"] = new SelectList(_context.Buildings, "Id", "Address", machine.BuildingId);
-            ViewData["Conditions"] = new SelectList(_context.Conditions, "Id", "Name", machine.ConditionId);
-            return View(machine);
+            var entity = _mapper.Map<WashingMachine>(model);
+            var success = await _washingMachineService.UpdateAsync(entity);
+            if (!success) return NotFound();
+
+            return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var machine = await _context.WashingMachines
-                .Include(m => m.Building)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var success = await _washingMachineService.DeleteAsync(id);
+            if (!success) return NotFound();
 
-            if (machine == null) return NotFound();
-
-            return View(machine);
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        private async Task PopulateDropdownsAsync(WashingMachineFormModel model)
         {
-            var machine = await _context.WashingMachines.FindAsync(id);
-            if (machine != null)
-            {
-                _context.WashingMachines.Remove(machine);
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Index));
+            var buildings = await _buildingService.GetAllAsync();
+            var conditions = await _conditionService.GetAllAsync();
+
+            model.Buildings = buildings.Select(b => new SelectListItem(string.Concat(b.Name, " - ", b.Address), b.Id.ToString()))
+                .ToList();
+            model.Conditions = conditions.Select(c => new SelectListItem(c.Name, c.Id.ToString())).ToList();
         }
     }
 }

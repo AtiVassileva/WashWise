@@ -1,0 +1,44 @@
+﻿@model WashingMachineFormModel
+
+@{
+    var title = Model != null && Model.Id != Guid.Empty ? "Редактирай пералня" : "Създай пералня";
+    var action = Model != null && Model.Id != Guid.Empty ? "Edit" : "Create";
+}
+
+<p class="m-0 mt-2 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2">
+    @title
+</p>
+
+<form asp-action="@action" method="post">
+    @if (Model is not null && Model.Id != Guid.Empty)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div class="form-group">
+        <label asp-for="MachineModel">Модел</label>
+        <input asp-for="MachineModel" class="form-control" />
+        <span asp-validation-for="MachineModel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BuildingId">Блок</label>
+        <select asp-for="BuildingId" class="form-control" asp-items="@Model?.Buildings"></select>
+        <span asp-validation-for="BuildingId" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="ConditionId">Статус</label>
+        <select asp-for="ConditionId" class="form-control" asp-items="@Model?.Conditions" disabled="@(action == "Create")"></select>
+        <span asp-validation-for="ConditionId" class="text-danger"></span>
+    </div>
+
+    <a asp-action="Index" class="btn btn-secondary mt-2">Назад</a>
+    <button type="submit" class="btn btn-success mt-2">Запази</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

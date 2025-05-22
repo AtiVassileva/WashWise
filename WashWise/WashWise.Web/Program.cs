@@ -39,7 +39,7 @@ builder.Services.AddControllersWithViews(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddTransient<IBuildingService, BuildingService>();
+builder.RegisterServicesCollection();
 
 var app = builder.Build();
 

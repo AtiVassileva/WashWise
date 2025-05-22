@@ -21,7 +21,7 @@ namespace WashWise.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var buildings = await _buildingService.GetAll();
+            var buildings = await _buildingService.GetAllAsync();
             var buildingModels = _mapper.Map<List<BuildingFormViewModel>>(buildings);
 
             return View(buildingModels);
@@ -38,7 +38,7 @@ namespace WashWise.Web.Controllers
                 return View("Form", model);
             }
 
-            var exists = await _buildingService.Exists(model.Name, model.Address, model.City);
+            var exists = await _buildingService.ExistsAsync(model.Name, model.Address, model.City);
 
             if (exists)
             {
@@ -61,7 +61,7 @@ namespace WashWise.Web.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var building = await _buildingService.GetById(id);
+            var building = await _buildingService.GetByIdAsync(id);
 
             if (building == null) return NotFound();
 
@@ -77,7 +77,7 @@ namespace WashWise.Web.Controllers
             if (!ModelState.IsValid)
                 return View("Form", model);
 
-            var building = await _buildingService.GetById(id);
+            var building = await _buildingService.GetByIdAsync(id);
 
             if (building == null)
                 return NotFound();
@@ -88,7 +88,7 @@ namespace WashWise.Web.Controllers
                 return View("Form", model);
             }
 
-            var isEdited = await _buildingService.Edit(building, model.Name, model.Address, model.City);
+            var isEdited = await _buildingService.UpdateAsync(building, model.Name, model.Address, model.City);
 
             if (!isEdited)
             {
@@ -103,7 +103,7 @@ namespace WashWise.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _buildingService.Delete(id);
+            await _buildingService.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
         }

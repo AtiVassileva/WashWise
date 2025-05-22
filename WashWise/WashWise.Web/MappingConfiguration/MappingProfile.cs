@@ -10,6 +10,13 @@ namespace WashWise.Web.MappingConfiguration
         {
             CreateMap<Building, BuildingFormViewModel>()
                 .ReverseMap();
+            CreateMap<WashingMachine, WashingMachineViewModel>()
+                .ForMember(dest => dest.BuildingAddress, opt => opt.MapFrom(src => string.Concat(src.Building.Name, " - ", src.Building.Address)))
+                .ForMember(dest => dest.ConditionName, opt => opt.MapFrom(src => src.Condition!.Name));
+
+            CreateMap<WashingMachine, WashingMachineFormModel>()
+                .ForMember(dest => dest.MachineModel, opt => opt.MapFrom(src => src.Model))
+                .ReverseMap();
         }
     }
 }
