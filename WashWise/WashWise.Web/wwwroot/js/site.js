@@ -16,19 +16,36 @@
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const deleteModal = document.getElementById('roleModal');
-    if (!deleteModal) return;
+    const roleModal = document.getElementById('roleModal');
+    if (!roleModal) return;
 
-    deleteModal.addEventListener('show.bs.modal', function (event) {
+    roleModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
         const itemName = button.getAttribute('data-item-name') || 'този елемент';
         const changeRoleUrl = button.getAttribute('data-role-url');
 
-        const modalItemName = deleteModal.querySelector('#roleItemName');
-        const form = deleteModal.querySelector('#roleForm');
+        const modalItemName = roleModal.querySelector('#roleItemName');
+        const form = roleModal.querySelector('#roleForm');
 
         modalItemName.textContent = itemName;
         form.action = changeRoleUrl;
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cancelModal = document.getElementById('cancelModal');
+    if (!cancelModal) return;
+
+    cancelModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const itemName = button.getAttribute('data-item-name') || 'този елемент';
+        const cancelUrl = button.getAttribute('data-cancel-url');
+
+        const modalItemName = cancelModal.querySelector('#cancelItemName');
+        const form = cancelModal.querySelector('#cancelForm');
+
+        modalItemName.textContent = itemName;
+        form.action = cancelUrl;
     });
 });
 

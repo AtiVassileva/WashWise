@@ -125,7 +125,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="./about.html" class="px-3 text-body-emphasis bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold">
+                                <a asp-controller="Reservations" asp-action="Mine" class="px-3 text-body-emphasis bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold">
                                     Моите резервации
                                 </a>
                             </li>
@@ -133,7 +133,7 @@
                             <li class="nav-item">
                                 <div class="dropdown">
                                     <button class="btn w-100 text-start dropdown-toggle px-3 text-body-emphasis bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Админ
+                                        Администратор
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-hover end-0 text-sm shadow bg-body-tertiary" style="--bs-dropdown-min-width: 9rem;">
                                         <li class="d-none d-xl-block" style="color: var(--bs-tertiary-bg);">
@@ -215,7 +215,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
             </div>
             <div class="modal-body">
-                Наистина ли искате да направите <strong id="roleItemName">този елемент</strong> администратор? 
+                Наистина ли искате да направите <strong id="roleItemName">този елемент</strong> администратор?
                 <strong>След потвърждение, това действие не може да бъде отменено!</strong>
             </div>
             <div class="modal-footer">
@@ -227,6 +227,27 @@
         </div>
     </div>
 </div>
+
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">Потвърждение за канселиране на резервация</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                </div>
+                <div class="modal-body">
+                    Наистина ли искате да канселирате вашата резервация за <strong id="cancelItemName">този елемент</strong>?
+                    <strong>След потвърждение, това действие не може да бъде отменено!</strong>
+                </div>
+                <div class="modal-footer">
+                    <form id="cancelForm" method="post">
+                        <button type="button" class="btn btn-secondary" style="color: #fff;" data-bs-dismiss="modal">Отказ</button>
+                        <button type="submit" class="btn btn-danger" style="color: #fff;">Потвърди</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div class="container">
         <main role="main" class="pb-3">

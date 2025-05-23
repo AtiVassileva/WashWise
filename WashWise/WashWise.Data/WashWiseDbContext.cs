@@ -119,13 +119,13 @@ namespace WashWise.Data
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedOn = DateTime.UtcNow;
-                    entry.Entity.LastModifiedOn = DateTime.UtcNow;
+                    entry.Entity.CreatedOn = DateTime.Now;
+                    entry.Entity.LastModifiedOn = DateTime.Now;
                     entry.Entity.VersionNo = 1;
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    entry.Entity.LastModifiedOn = DateTime.UtcNow;
+                    entry.Entity.LastModifiedOn = DateTime.Now;
                     entry.Entity.VersionNo += 1;
                 }
             }

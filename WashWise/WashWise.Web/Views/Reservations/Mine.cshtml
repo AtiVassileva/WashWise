@@ -1,0 +1,41 @@
+﻿@model List<MyReservationViewModel>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Моите резервации
+</p>
+
+<table class="table table-bordered" id="usersTable">
+    <thead>
+        <tr>
+            <th>Пералня</th>
+            <th>Локация</th>
+            <th>Начален час</th>
+            <th>Краен час</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.WashingMachineModel</td>
+                <td>@string.Concat(reservation.BuildingName, " - ", reservation.Address)</td>
+                <td>@reservation.StartTime.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@reservation.EndTime.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@reservation.Status</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#roleModal" data-item-name="@($" потребителя {reservation.ReservationId}")" data-role-url="@($"/AdminUsers/MakeAdmin/{reservation.ReservationId}")" style="color: #fff;">
+                        Докладвай повреда
+                    </a>
+                    @if (reservation.CanCancel)
+                    {
+                        <a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelModal" data-item-name="@($"{reservation.WashingMachineModel}, {reservation.BuildingName} - {reservation.Address}")" data-cancel-url="@($"/Reservations/Cancel/{reservation.ReservationId}")" style="color: #fff;">
+                            Канселирай
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

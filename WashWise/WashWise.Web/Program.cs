@@ -1,14 +1,7 @@
-using System;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using WashWise.Data;
-using WashWise.Services;
-using WashWise.Services.Contracts;
 using WashWise.Web.Infrastructure;
 using WashWise.Web.MappingConfiguration;
 using static WashWise.Web.Common.CommonConstants;

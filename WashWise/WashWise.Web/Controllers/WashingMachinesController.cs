@@ -48,13 +48,7 @@ namespace WashWise.Web.Controllers
         public async Task<IActionResult> Status(Guid buildingId)
         {
             var machines = await _washingMachineService.GetWashingMachinesByBuildingId(buildingId);
-
             var viewModels = _mapper.Map<List<WashingMachineAvailabilityViewModel>>(machines);
-
-            foreach (var vm in viewModels)
-            {
-                vm.OccupiedUntil = await _reservationService.GetWashingMachineOccupiedUntilTime(vm.WashingMachineId);
-            }
 
             return View(viewModels);
         }

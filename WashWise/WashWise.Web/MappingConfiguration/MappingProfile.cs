@@ -21,9 +21,18 @@ namespace WashWise.Web.MappingConfiguration
 
             CreateMap<WashingMachine, WashingMachineAvailabilityViewModel>()
                 .ForMember(dest => dest.WashingMachineId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.MachineModel, opt => opt.MapFrom(src => src.Model))
-                .ForMember(dest => dest.Condition, opt => opt.MapFrom(src => src.Condition!.Name))
-                .ForMember(dest => dest.OccupiedUntil, opt => opt.Ignore()); 
+                .ForMember(dest => dest.MachineModel, opt => opt.MapFrom(src => src.Model));
+
+            CreateMap<Reservation, MyReservationViewModel>()
+                .ForMember(dest => dest.ReservationId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.WashingMachineModel, opt => opt.MapFrom(src => src.WashingMachine.Model))
+                .ForMember(dest => dest.BuildingName, opt => opt.MapFrom(src => src.WashingMachine.Building.Name))
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.WashingMachine.Building.Address))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
+                .ForMember(dest => dest.CanCancel, opt => opt.MapFrom(src =>
+                    src.StartTime > DateTime.Now && src.Status.Name != "Канселирана"));
         }
     }
 }

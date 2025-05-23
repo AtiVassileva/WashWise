@@ -23,7 +23,7 @@ namespace WashWise.Services
                 .ToListAsync();
 
         public async Task<WashingMachine?> GetByIdAsync(Guid id)
-            => await _dbContext.WashingMachines.FirstOrDefaultAsync(wm => wm.Id == id);
+            => await _dbContext.WashingMachines.Include(w => w.Building).FirstOrDefaultAsync(wm => wm.Id == id);
 
         public async Task<IEnumerable<WashingMachine>> GetWashingMachinesByBuildingId(Guid buildingId) 
             => await _dbContext.WashingMachines

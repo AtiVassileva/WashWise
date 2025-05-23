@@ -1,0 +1,36 @@
+﻿@model List<ReservationSlotViewModel>
+
+@if (Model.All(sl => sl.SlotEnd < DateTime.Now))
+{
+    <p>Няма налични свободни слотове за този ден.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Час</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var slot in Model.Where(s => s.SlotStart > DateTime.Now))
+        {
+            <tr>
+                <td>@slot.SlotStart.ToString("HH:mm") – @slot.SlotEnd.ToString("HH:mm")</td>
+                <td class="@(slot.IsAvailable ? "text-success" : "text-danger")" style="font-weight: bold;">
+                    @(slot.IsAvailable ? "Свободен" : "Зает")
+                </td>
+                <td>
+                    <form asp-controller="Reservations" asp-action="Reserve" method="post">
+                        <input type="hidden" name="MachineId" value="@slot.WashingMachineId"/>
+                        <input type="hidden" name="StartTime" value="@slot.SlotStart"/>
+                        <button class="btn btn-sm btn-info" style="color: #fff;" disabled="@(!slot.IsAvailable)">Резервирай</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

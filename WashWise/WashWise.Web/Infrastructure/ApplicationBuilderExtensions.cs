@@ -19,7 +19,9 @@ namespace WashWise.Web.Infrastructure
                 .AddTransient<IConditionService, ConditionService>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IReportService, ReportService>()
-                .AddTransient<IReservationService, ReservationService>();
+                .AddTransient<IReservationService, ReservationService>()
+                .AddTransient<IStatusService, StatusService>()
+                .AddHostedService<ReservationStatusUpdaterService>();
         }
 
         public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)

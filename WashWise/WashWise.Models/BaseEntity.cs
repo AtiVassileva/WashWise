@@ -7,7 +7,7 @@ namespace WashWise.Models
         [Required]
         public Guid Id { get; set; }
 
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime LastModifiedOn { get; set; }
 
         [Required]
