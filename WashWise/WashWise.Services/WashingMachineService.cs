@@ -7,23 +7,29 @@ namespace WashWise.Services
 {
     public class WashingMachineService : IWashingMachineService
     {
-        private readonly WashWiseDbContext _context;
+        private readonly WashWiseDbContext _dbContext;
         private readonly IConditionService _conditionService;
 
-        public WashingMachineService(WashWiseDbContext context, IConditionService conditionService)
+        public WashingMachineService(WashWiseDbContext dbContext, IConditionService conditionService)
         {
-            _context = context;
+            _dbContext = dbContext;
             _conditionService = conditionService;
         }
 
         public async Task<List<WashingMachine>> GetAllAsync()
-            => await _context.WashingMachines
+            => await _dbContext.WashingMachines
                 .Include(m => m.Building)
                 .Include(m => m.Condition)
                 .ToListAsync();
 
         public async Task<WashingMachine?> GetByIdAsync(Guid id)
-            => await _context.WashingMachines.FirstOrDefaultAsync(wm => wm.Id == id);
+            => await _dbContext.WashingMachines.FirstOrDefaultAsync(wm => wm.Id == id);
+
+        public async Task<IEnumerable<WashingMachine>> GetWashingMachinesByBuildingId(Guid buildingId) 
+            => await _dbContext.WashingMachines
+                .Include(m => m.Condition)
+                .Where(m => m.BuildingId == buildingId)
+                .ToListAsync();
 
         public async Task CreateAsync(WashingMachine machine)
         {
@@ -33,17 +39,17 @@ namespace WashWise.Services
 
             machine.ConditionId = condition.Id;
 
-            _context.WashingMachines.Add(machine);
-            await _context.SaveChangesAsync();
+            _dbContext.WashingMachines.Add(machine);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateAsync(WashingMachine machine)
         {
-            var exists = await _context.WashingMachines.AnyAsync(m => m.Id == machine.Id);
+            var exists = await _dbContext.WashingMachines.AnyAsync(m => m.Id == machine.Id);
             if (!exists) return false;
 
-            _context.WashingMachines.Update(machine);
-            await _context.SaveChangesAsync();
+            _dbContext.WashingMachines.Update(machine);
+            await _dbContext.SaveChangesAsync();
             return true;
         }
 
@@ -53,8 +59,8 @@ namespace WashWise.Services
 
             if (machine == null) return false;
 
-            _context.WashingMachines.Remove(machine);
-            await _context.SaveChangesAsync();
+            _dbContext.WashingMachines.Remove(machine);
+            await _dbContext.SaveChangesAsync();
             return true;
         }
     }

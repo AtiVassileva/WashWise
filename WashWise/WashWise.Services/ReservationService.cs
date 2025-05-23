@@ -14,12 +14,17 @@ namespace WashWise.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Reservation>> GetUserReservations(string userId)
-        {
-            return await _dbContext.Reservations
+        public async Task<IEnumerable<Reservation>> GetUserReservations(string userId) 
+            => await _dbContext.Reservations
                 .Where(r => r.UserId == userId)
                 .ToListAsync();
-        }
+
+        public async Task<DateTime?> GetWashingMachineOccupiedUntilTime(Guid washingMachineId)
+            => await _dbContext.Reservations
+                .Where(r => r.WashingMachineId == washingMachineId && r.EndTime > DateTime.UtcNow)
+                .OrderByDescending(r => r.EndTime)
+                .Select(r => (DateTime?)r.EndTime)
+                .FirstOrDefaultAsync();
 
         public async Task DeleteUserReservations(string userId)
         {

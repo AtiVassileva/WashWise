@@ -1,25 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using WashWise.Data;
+using WashWise.Services.Contracts;
 using WashWise.Web.Models;
 
 namespace WashWise.Web.Controllers
 {
     public class WashingMachinesController : Controller
     {
-        private readonly WashWiseDbContext _context;
+        private readonly IBuildingService _buildingService;
+        private readonly IWashingMachineService _washingMachineService;
+        private readonly IReservationService _reservationService;
+        private readonly IMapper _mapper;
 
-        public WashingMachinesController(WashWiseDbContext context)
+        public WashingMachinesController(IBuildingService buildingService, IWashingMachineService washingMachineService, IMapper mapper, IReservationService reservationService)
         {
-            _context = context;
+            _buildingService = buildingService;
+            _washingMachineService = washingMachineService;
+            _mapper = mapper;
+            _reservationService = reservationService;
         }
         
-        public IActionResult SelectBuilding()
+        public async Task<IActionResult> SelectBuilding()
         {
+            var buildings = await _buildingService.GetAllAsync();
+
             var viewModel = new BuildingSelectionViewModel
             {
-                Buildings = _context.Buildings
+                Buildings = buildings
                     .Select(b => new SelectListItem
                     {
                         Value = b.Id.ToString(),
@@ -37,25 +45,18 @@ namespace WashWise.Web.Controllers
             return RedirectToAction(nameof(Status), new { buildingId = model.SelectedBuildingId });
         }
 
-        public IActionResult Status(Guid buildingId)
+        public async Task<IActionResult> Status(Guid buildingId)
         {
-            var machines = _context.WashingMachines
-                .Include(m => m.Condition)
-                .Where(m => m.BuildingId == buildingId)
-                .Select(m => new WashingMachineAvailabilityViewModel
-                {
-                    WashingMachineId = m.Id,
-                    Model = m.Model,
-                    Condition = m.Condition!.Name,
-                    OccupiedUntil = _context.Reservations
-                        .Where(r => r.WashingMachineId == m.Id && r.EndTime > DateTime.UtcNow)
-                        .OrderByDescending(r => r.EndTime)
-                        .Select(r => (DateTime?)r.EndTime)
-                        .FirstOrDefault()
-                })
-                .ToList();
+            var machines = await _washingMachineService.GetWashingMachinesByBuildingId(buildingId);
 
-            return View(machines);
+            var viewModels = _mapper.Map<List<WashingMachineAvailabilityViewModel>>(machines);
+
+            foreach (var vm in viewModels)
+            {
+                vm.OccupiedUntil = await _reservationService.GetWashingMachineOccupiedUntilTime(vm.WashingMachineId);
+            }
+
+            return View(viewModels);
         }
     }
 }

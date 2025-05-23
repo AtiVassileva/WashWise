@@ -1,11 +1,13 @@
 ﻿@model BuildingSelectionViewModel
 
-<h2>Изберете помещение</h2>
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Избор на блок
+</p>
 
 <form asp-action="ShowMachines" method="post">
     <div class="form-group">
         <label asp-for="@Model.SelectedBuildingId">Блок</label>
         <select asp-for="@Model.SelectedBuildingId" asp-items="@Model.Buildings" class="form-control"></select>
     </div>
-    <button type="submit" class="btn btn-primary">Напред</button>
+    <button type="submit" class="btn btn-success mt-2" style="color: #fff">Напред</button>
 </form>

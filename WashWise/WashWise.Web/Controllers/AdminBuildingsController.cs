@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using WashWise.Models;
 using WashWise.Services.Contracts;
 using WashWise.Web.Models;
+using static WashWise.Web.Common.CommonConstants;
 
 namespace WashWise.Web.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = AdministratorRoleName)]
     public class AdminBuildingsController : Controller
     {
         private readonly IMapper _mapper;

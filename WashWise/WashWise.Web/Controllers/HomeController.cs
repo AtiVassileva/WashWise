@@ -15,6 +15,11 @@ namespace WashWise.Web.Controllers
 
         public IActionResult Index()
         {
+            if (!User.Identity!.IsAuthenticated)
+            {
+                return LocalRedirect("/Identity/Account/Login");
+            }
+
             return View();
         }
 

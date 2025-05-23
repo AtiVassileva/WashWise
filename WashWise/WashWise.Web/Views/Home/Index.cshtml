@@ -2,94 +2,34 @@
     ViewData["Title"] = "Начало";
 }
 
-<section class="tm-banner">
-    <div class="tm-container-outer tm-banner-bg">
-        <div class="container">
+<div class="overflow-hidden position-relative">
+	<img src="~/img/bg/bg4.jpg" class="position-absolute z-n1 top-0 h-100 w-100 object-fit-cover" alt="Meeting">
 
-            <div class="row tm-banner-row tm-banner-row-header">
-                <div class="col-xs-12">
-                    <div class="tm-banner-header">
-                        <h1 class="text-uppercase tm-banner-title">WashWise</h1>
-                        <p class="tm-banner-subtitle">Чистотата е ключа към здравето.</p>
-                    </div>
-                </div>  <!-- col-xs-12 -->
-            </div> <!-- row -->
-            <div class="row tm-banner-row" id="tm-section-search">
+	<div class="overlay position-absolute z-n1 top-0 h-100 w-100 bg-dark"
+		 style="opacity: 0.85; mix-blend-mode: multiply; filter: contrast(1.15) brightness(0.85);">
+	</div>
 
-                <form action="index.html" method="get" class="tm-search-form tm-section-pad-2">
-                    <div class="form-row tm-search-form-row">
-                        <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
-                            <label for="inputCity">Choose Your Destination</label>
-                            <input name="destination" type="text" class="form-control" id="inputCity" placeholder="Type your destination...">
-                        </div>
-                        <div class="form-group tm-form-group tm-form-group-1">
-                            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-2">
-                                <label for="inputRoom">How many rooms?</label>
-                                <select name="room" class="form-control tm-select" id="inputRoom">
-                                    <option value="1" selected>1 Room</option>
-                                    <option value="2">2 Rooms</option>
-                                    <option value="3">3 Rooms</option>
-                                    <option value="4">4 Rooms</option>
-                                    <option value="5">5 Rooms</option>
-                                    <option value="6">6 Rooms</option>
-                                    <option value="7">7 Rooms</option>
-                                    <option value="8">8 Rooms</option>
-                                    <option value="9">9 Rooms</option>
-                                    <option value="10">10 Rooms</option>
-                                </select>
+	<div class="home-container">
+		<div class="min-vh-100 row align-items-center">
+			<div class="col-12 col-xl-8">
+				<div class="pt-9 pt-md-10 pt-xl-11 pb-7 pb-md-8 pb-xl-9 max-w-2xl mx-auto mx-xl-0">
+					<div class="mt-4 pt-2">
+						<div class="text-center text-xl-start">
+							<h1 class="m-0 text-white tracking-tight text-6xl fw-bold" data-aos-delay="0" data-aos="fade" data-aos-duration="3000">
+								Добре дошли в WashWise!
+							</h1>
+							<p class="m-0 mt-4 text-white text-lg leading-8" data-aos-delay="100" data-aos="fade" data-aos-duration="3000">
+								Умният начин за пране в общежитието. Системата за перални, създадена с мисъл за студента.
+							</p>
+							<div class="mt-4 pt-3 d-flex align-items-center justify-content-center justify-content-xl-start column-gap-3">
+								<a href="javascript:;" class="btn btn-lg btn-primary text-white text-sm fw-semibold" data-aos-delay="200" data-aos="fade" data-aos-duration="3000">
+									Резервирай пералня
+								</a>
                             </div>
-                            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
-                                <label for="inputAdult">Adult</label>
-                                <select name="adult" class="form-control tm-select" id="inputAdult">
-                                    <option value="1" selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
-
-                                <label for="inputChildren">Children</label>
-                                <select name="children" class="form-control tm-select" id="inputChildren">
-                                    <option value="0" selected>0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div> <!-- form-row -->
-                    <div class="form-row tm-search-form-row">
-
-                        <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
-                            <label for="inputCheckIn">Check In Date</label>
-                            <input name="check-in" type="text" class="form-control" id="inputCheckIn" placeholder="Check In">
-                        </div>
-                        <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
-                            <label for="inputCheckOut">Check Out Date</label>
-                            <input name="check-out" type="text" class="form-control" id="inputCheckOut" placeholder="Check Out">
-                        </div>
-                        <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
-                            <label for="btnSubmit">&nbsp;</label>
-                            <button type="submit" class="btn btn-primary tm-btn tm-btn-search text-uppercase" id="btnSubmit">Check Availability</button>
-                        </div>
-                    </div>
-                </form>
-
-            </div> <!-- row -->
-            <div class="tm-banner-overlay"></div>
-        </div>  <!-- .container -->
-    </div>     <!-- .tm-container-outer -->
-</section>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+	</div>
+</div>
