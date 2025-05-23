@@ -153,8 +153,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item text-body-emphasis bg-body-secondary-hover py-2 text-base leading-6 fw-semibold" href="./blog-author.html">
-                                                Author page
+                                            <a class="dropdown-item text-body-emphasis bg-body-secondary-hover py-2 text-base leading-6 fw-semibold" asp-controller="AdminUsers" asp-action="Index">
+                                                Потребители
                                             </a>
                                         </li>
                                     </ul>
@@ -187,27 +187,48 @@
         </nav>
     </header>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Потвърждение за изтриване</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
-                </div>
-                <div class="modal-body">
-                    Наистина ли искате да изтриете <strong id="deleteItemName">този елемент</strong>?
-                </div>
-                <div class="modal-footer">
-                    <form id="deleteForm" method="post">
-                        <button type="button" class="btn btn-secondary" style="color: #fff;" data-bs-dismiss="modal">Отказ</button>
-                        <button type="submit" class="btn btn-danger" style="color: #fff;">Изтрий</button>
-                    </form>
-                </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Потвърждение за изтриване</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+            </div>
+            <div class="modal-body">
+                Наистина ли искате да изтриете <strong id="deleteItemName">този елемент</strong>?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <button type="button" class="btn btn-secondary" style="color: #fff;" data-bs-dismiss="modal">Отказ</button>
+                    <button type="submit" class="btn btn-danger" style="color: #fff;">Изтрий</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container">
+<div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roleModalLabel">Потвърждение за смяна на роля</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+            </div>
+            <div class="modal-body">
+                Наистина ли искате да направите <strong id="roleItemName">този елемент</strong> администратор? 
+                <strong>След потвърждение, това действие не може да бъде отменено!</strong>
+            </div>
+            <div class="modal-footer">
+                <form id="roleForm" method="post">
+                    <button type="button" class="btn btn-secondary" style="color: #fff;" data-bs-dismiss="modal">Отказ</button>
+                    <button type="submit" class="btn btn-warning" style="color: #fff;">Потвърди</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

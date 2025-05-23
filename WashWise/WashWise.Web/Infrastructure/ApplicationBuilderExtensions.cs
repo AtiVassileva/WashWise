@@ -16,7 +16,10 @@ namespace WashWise.Web.Infrastructure
             builder.Services
                 .AddTransient<IBuildingService, BuildingService>()
                 .AddTransient<IWashingMachineService, WashingMachineService>()
-                .AddTransient<IConditionService, ConditionService>();
+                .AddTransient<IConditionService, ConditionService>()
+                .AddTransient<IUserService, UserService>()
+                .AddTransient<IReportService, ReportService>()
+                .AddTransient<IReservationService, ReservationService>();
         }
 
         public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)

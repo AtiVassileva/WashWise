@@ -12,9 +12,9 @@ namespace WashWise.Web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
+        private readonly IUserEmailStore<IdentityUser> _emailStore;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -23,9 +23,10 @@ namespace WashWise.Web.Areas.Identity.Pages.Account
         {
             _userManager = userManager;
             _userStore = userStore;
-            _signInManager = signInManager;
+            _emailStore = (IUserEmailStore<IdentityUser>)userStore;
         }
-        
+
+
         [BindProperty]
         public InputModel Input { get; set; }
         
@@ -63,6 +64,7 @@ namespace WashWise.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
