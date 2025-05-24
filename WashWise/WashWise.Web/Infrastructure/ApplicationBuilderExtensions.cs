@@ -21,6 +21,7 @@ namespace WashWise.Web.Infrastructure
                 .AddTransient<IReportService, ReportService>()
                 .AddTransient<IReservationService, ReservationService>()
                 .AddTransient<IStatusService, StatusService>()
+                .AddTransient<IActivityLogService, ActivityLogService>()
                 .AddHostedService<ReservationStatusUpdaterService>();
         }
 

@@ -25,7 +25,7 @@ namespace WashWise.Services
         public async Task<IEnumerable<Reservation>> GetUserReservationsAsync(string userId) 
             =>  await _dbContext.Reservations
                 .Where(r => r.UserId == userId)
-                .Include(r => r.WashingMachine).ThenInclude(m => m.Building)
+                .Include(r => r.WashingMachine).ThenInclude(m => m!.Building)
                 .Include(r => r.Status)
                 .OrderByDescending(r => r.StartTime)
                 .ToListAsync();
@@ -35,7 +35,7 @@ namespace WashWise.Services
             var reservations = await GetAllAsync();
 
              var finishedReservations = reservations
-                 .Where(r => r.EndTime <= DateTime.Now && r.Status.Name != "Приключена" && r.Status.Name != "Канселирана")
+                 .Where(r => r.EndTime <= DateTime.Now && r.Status!.Name != "Приключена" && r.Status.Name != "Канселирана")
                  .ToList();
 
              return finishedReservations;
@@ -61,7 +61,7 @@ namespace WashWise.Services
             var reservations = await _dbContext.Reservations
                 .Where(r => r.WashingMachineId == machineId 
                             && r.StartTime >= startOfDay && r.StartTime < endOfDay 
-                            && (r.Status.Name == "В прогрес" || r.Status.Name == "Предстояща"))
+                            && (r.Status!.Name == "В прогрес" || r.Status.Name == "Предстояща"))
                 .Select(r => new { r.StartTime, r.EndTime })
                 .ToListAsync();
 
@@ -130,7 +130,7 @@ namespace WashWise.Services
                 .Include(r => r.Status)
                 .FirstOrDefaultAsync(r => r.Id == reservationId && r.UserId == userId);
 
-            if (reservation == null || reservation.StartTime <= DateTime.Now || reservation.Status.Name == "Канселирана")
+            if (reservation == null || reservation.StartTime <= DateTime.Now || reservation.Status!.Name == "Канселирана")
                 return false;
 
             var cancelledStatus = await _dbContext.Statuses.FirstOrDefaultAsync(s => s.Name == "Канселирана");

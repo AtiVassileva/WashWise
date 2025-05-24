@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WashWise.Data.Infrastructure;
 using WashWise.Models;
 
 namespace WashWise.Data
@@ -72,23 +73,7 @@ namespace WashWise.Data
                 .HasForeignKey(r => r.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<ActivityLog>()
-                .HasOne(a => a.Report)
-                .WithMany()
-                .HasForeignKey(a => a.ReportId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<ActivityLog>()
-                .HasOne(a => a.User)
-                .WithMany()
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<ActivityLog>()
-                .Property(e => e.VersionNo)
-                .IsConcurrencyToken();
-
-             builder.Entity<Building>()
+            builder.Entity<Building>()
                 .Property(e => e.VersionNo)
                 .IsConcurrencyToken();
 
@@ -111,6 +96,8 @@ namespace WashWise.Data
              builder.Entity<WashingMachine>()
                  .Property(e => e.VersionNo)
                  .IsConcurrencyToken();
+
+             builder.ApplyHasTrigger();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

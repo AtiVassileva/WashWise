@@ -1,20 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
 
 namespace WashWise.Models
 {
-    public class ActivityLog : BaseEntity
+    public class ActivityLog
     {
-        [Required] 
-        public string UserId { get; set; } = null!;
-        public virtual IdentityUser? User { get; set; }
+        [Required]
+        [Key]
+        public Guid Id { get; set; }
 
         [Required] 
         public string Action { get; set; } = null!;
 
         [Required]
-        public Guid ReportId { get; set; }
-        public Report? Report { get; set; }
+        public string TableName { get; set; } = null!;
 
         public DateTime Timestamp { get; set; } = DateTime.Now;
     }

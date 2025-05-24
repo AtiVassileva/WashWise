@@ -29,6 +29,7 @@ namespace WashWise.Services
             => await _dbContext.WashingMachines
                 .Include(m => m.Condition)
                 .Where(m => m.BuildingId == buildingId)
+                .Where(wm => wm.Condition!.Name != "Повредена")
                 .ToListAsync();
 
         public async Task CreateAsync(WashingMachine machine)
