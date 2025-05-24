@@ -33,17 +33,32 @@ namespace WashWise.Services
 
             var finishedReservations = await reservationService.GetFinishedReservationsAsync();
 
-            if (!finishedReservations.Any())
-                return;
-
-            var completedStatus = await statusService.GetByNameAsync("Приключена");
-
-            if (completedStatus == null)
-                return;
-
-            foreach (var reservation in finishedReservations)
+            if (finishedReservations.Any())
             {
-                reservation.StatusId = completedStatus.Id;
+                var completedStatus = await statusService.GetByNameAsync("Приключена");
+
+                if (completedStatus != null)
+                {
+                    foreach (var reservation in finishedReservations)
+                    {
+                        reservation.StatusId = completedStatus.Id;
+                    }
+                }
+            }
+
+            var reservationsInProgress = await reservationService.GetReservationsInProgressAsync();
+
+            if (reservationsInProgress.Any())
+            {
+                var inProgressStatus = await statusService.GetByNameAsync("В прогрес");
+
+                if (inProgressStatus != null)
+                {
+                    foreach (var reservation in reservationsInProgress)
+                    {
+                        reservation.StatusId = inProgressStatus.Id;
+                    }
+                }
             }
 
             await dbContext.SaveChangesAsync();

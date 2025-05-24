@@ -1,0 +1,18 @@
+﻿@model WashWise.Web.Models.ReportInputModel
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Докладване на повреда
+</p>
+
+<p><strong>Машина:</strong> @Model.WashingMachineModel</p>
+<p><strong>Локация:</strong> @Model.BuildingAddress</p>
+
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="WashingMachineId" />
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-warning mt-2" style="color: #fff">Докладвай</button>
+</form>

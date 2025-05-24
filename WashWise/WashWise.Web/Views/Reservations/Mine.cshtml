@@ -4,6 +4,14 @@
     Моите резервации
 </p>
 
+@if (!string.IsNullOrWhiteSpace(TempData["SuccessMessage"]?.ToString()))
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <table class="table table-bordered" id="usersTable">
     <thead>
         <tr>
@@ -25,7 +33,7 @@
                 <td>@reservation.EndTime.ToString("dd.MM.yyyy HH:mm")</td>
                 <td>@reservation.Status</td>
                 <td>
-                    <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#roleModal" data-item-name="@($" потребителя {reservation.ReservationId}")" data-role-url="@($"/AdminUsers/MakeAdmin/{reservation.ReservationId}")" style="color: #fff;">
+                    <a class="btn btn-warning btn-sm" asp-controller="Reports" asp-action="Create" asp-route-machineId="@reservation.WashingMachineId" style="color: #fff;">
                         Докладвай повреда
                     </a>
                     @if (reservation.CanCancel)

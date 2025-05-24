@@ -41,6 +41,18 @@ namespace WashWise.Services
              return finishedReservations;
         }
 
+        public async Task<IEnumerable<Reservation>> GetReservationsInProgressAsync()
+        {
+            var now = DateTime.Now;
+            var reservations = await GetAllAsync();
+
+            var reservationsInProgress = reservations
+                .Where(r => r.StartTime <= now && r.EndTime > now)
+                .ToList();
+
+            return reservationsInProgress;
+        }
+
         public async Task<List<(DateTime start, DateTime end)>> GetReservedSlotsAsync(Guid machineId, DateTime day)
         {
             var startOfDay = day.Date.AddHours(8);
@@ -73,6 +85,11 @@ namespace WashWise.Services
 
             return currentReservationEndTime;
         }
+
+        public async Task<IEnumerable<Reservation>> GetUpcomingReservations(Guid washingMachineId) =>
+            await _dbContext.Reservations
+                .Where(r => r.WashingMachineId == washingMachineId && r.StartTime > DateTime.Now)
+                .ToListAsync();
 
         public async Task<bool> IsSlotAvailableAsync(Guid machineId, DateTime startTime)
         {
