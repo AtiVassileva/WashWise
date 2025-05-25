@@ -14,6 +14,9 @@ namespace WashWise.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<ActivityLog>> GetAllAsync() => await _dbContext.ActivityLogs.ToListAsync();
+        public async Task<IEnumerable<ActivityLog>> GetAllAsync() 
+            => await _dbContext.ActivityLogs
+                .OrderByDescending(a => a.Timestamp)
+                .ToListAsync();
     }
 }
