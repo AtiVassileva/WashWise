@@ -3,10 +3,11 @@
 
 <p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
     Списък с блокове
-    <a class=" btn btn-lg btn-primary text-white text-sm fw-semibold" asp-action="Create">Добави нов блок</a>
+    <input type="text" id="buildingInput" class="form-control mb-3" style="margin-left: 10px; width: 70% !important;" placeholder="Търси по блок..." />
+    <a class=" btn btn-lg btn-success text-white text-sm fw-semibold mb-3" asp-action="Create" style="margin-left: 5px;">Добави нов блок</a>
 </p>
 
-<table class="table">
+<table class="table" id="buildingTable">
     <thead>
         <tr>
             <th>Блок</th>

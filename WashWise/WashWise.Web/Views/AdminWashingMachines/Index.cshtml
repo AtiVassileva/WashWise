@@ -2,10 +2,11 @@
 
 <p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
     Списък с перални
-    <a class=" btn btn-lg btn-primary text-white text-sm fw-semibold" asp-action="Create">Добави нова пералня</a>
+    <input type="text" id="machinesInput" class="form-control mb-3" style="margin-left: 10px; width: 70% !important;" placeholder="Търси по модел..." />
+    <a class=" btn btn-lg btn-success text-white text-sm fw-semibold mb-3" asp-action="Create" style="margin-left: 5px;">Добави нова пералня</a>
 </p>
 
-<table class="table">
+<table class="table" id="machinesTable">
     <thead>
         <tr>
             <th>Модел</th>

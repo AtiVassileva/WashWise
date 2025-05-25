@@ -20,13 +20,23 @@ namespace WashWise.Services
             => await _dbContext.Reservations
                 .Include(r => r.Status)
                 .Include(r => r.WashingMachine)
+                .Include(r => r.User)
+                .OrderByDescending(r => r.StartTime)
                 .ToListAsync();
+
+        public async Task<Reservation?> GetByIdAsync(Guid id)
+            => await _dbContext.Reservations
+                .Include(r => r.Status)
+                .Include(r => r.WashingMachine)
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
         public async Task<IEnumerable<Reservation>> GetUserReservationsAsync(string userId) 
             =>  await _dbContext.Reservations
                 .Where(r => r.UserId == userId)
                 .Include(r => r.WashingMachine).ThenInclude(m => m!.Building)
                 .Include(r => r.Status)
+                .Include(r => r.User)
                 .OrderByDescending(r => r.StartTime)
                 .ToListAsync();
 

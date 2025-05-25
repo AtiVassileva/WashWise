@@ -64,3 +64,54 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const reservationSearchInput = document.getElementById("reservationSearch");
+
+    if (reservationSearchInput) {
+        reservationSearchInput.addEventListener("keyup",
+            function() {
+                var input = this.value.toLowerCase();
+                var rows = document.querySelectorAll("#reservationTable tbody tr");
+
+                rows.forEach(function(row) {
+                    var userCell = row.cells[0].textContent.toLowerCase();
+                    row.style.display = userCell.includes(input) ? "" : "none";
+                });
+            });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const reservationSearchInput = document.getElementById("buildingInput");
+
+    if (reservationSearchInput) {
+        reservationSearchInput.addEventListener("keyup",
+            function () {
+                var input = this.value.toLowerCase();
+                var rows = document.querySelectorAll("#buildingTable tbody tr");
+
+                rows.forEach(function (row) {
+                    var userCell = row.cells[0].textContent.toLowerCase();
+                    row.style.display = userCell.includes(input) ? "" : "none";
+                });
+            });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const reservationSearchInput = document.getElementById("machinesInput");
+
+    if (reservationSearchInput) {
+        reservationSearchInput.addEventListener("keyup",
+            function () {
+                var input = this.value.toLowerCase();
+                var rows = document.querySelectorAll("#machinesTable tbody tr");
+
+                rows.forEach(function (row) {
+                    var userCell = row.cells[0].textContent.toLowerCase();
+                    row.style.display = userCell.includes(input) ? "" : "none";
+                });
+            });
+    }
+});

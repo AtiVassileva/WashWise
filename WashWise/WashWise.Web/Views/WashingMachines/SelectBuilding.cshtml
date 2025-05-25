@@ -7,7 +7,7 @@
 <form asp-action="ShowMachines" method="post">
     <div class="form-group">
         <label asp-for="@Model.SelectedBuildingId">Блок</label>
-        <select asp-for="@Model.SelectedBuildingId" asp-items="@Model.Buildings" class="form-control"></select>
+        <select asp-for="@Model.SelectedBuildingId" asp-items="@Model.Buildings" class="form-control" style="width: 50% !important"></select>
     </div>
     <button type="submit" class="btn btn-success mt-2" style="color: #fff">Напред</button>
 </form>

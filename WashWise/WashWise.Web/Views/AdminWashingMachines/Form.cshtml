@@ -1,8 +1,8 @@
 ﻿@model WashingMachineFormModel
 
 @{
-    var title = Model != null && Model.Id != Guid.Empty ? "Редактирай пералня" : "Създай пералня";
-    var action = Model != null && Model.Id != Guid.Empty ? "Edit" : "Create";
+    var title = Model != null && Model.Id != null && Model.Id != Guid.Empty ? "Редактирай пералня" : "Създай пералня";
+    var action = Model != null && Model.Id != null && Model.Id != Guid.Empty ? "Edit" : "Create";
 }
 
 <p class="m-0 mt-2 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2">

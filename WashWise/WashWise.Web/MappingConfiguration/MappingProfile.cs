@@ -46,6 +46,12 @@ namespace WashWise.Web.MappingConfiguration
                 .ForMember(dest => dest.AuthorId, opt => opt.Ignore())
                 .ForMember(dest => dest.IsResolved, opt => opt.Ignore())
                 .ReverseMap();
+
+            CreateMap<Reservation, ReservationListViewModel>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User!.Email))
+                .ForMember(dest => dest.Machine, opt => opt.MapFrom(src => src.WashingMachine!.Model))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status!.Name))
+                .ReverseMap();
         }
     }
 }

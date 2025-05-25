@@ -5,6 +5,7 @@ namespace WashWise.Services.Contracts
     public interface IReservationService
     {
         Task<IEnumerable<Reservation>> GetAllAsync();
+        Task<Reservation?> GetByIdAsync(Guid id);
         Task<IEnumerable<Reservation>> GetUserReservationsAsync(string userId);
         Task<IEnumerable<Reservation>> GetFinishedReservationsAsync();
         Task<IEnumerable<Reservation>> GetReservationsInProgressAsync();

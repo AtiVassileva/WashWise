@@ -7,7 +7,7 @@ namespace WashWise.Web.Models
     {
         public Guid Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Моля, въведете модел на пералната машина!")]
         public string MachineModel { get; set; } = null!;
 
         [Required]

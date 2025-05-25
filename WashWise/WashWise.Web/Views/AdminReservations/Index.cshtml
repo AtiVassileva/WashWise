@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ReservationListViewModel>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Резервации
+    <input type="text" id="reservationSearch" class="form-control mb-3" style="margin-left: 20px;" placeholder="Търси по потребител..." />
+</p>
+
+<table class="table table-striped" id="reservationTable">
+    <thead>
+    <tr>
+        <th>Потребител</th>
+        <th>Машина</th>
+        <th>От</th>
+        <th>До</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var reservation in Model)
+    {
+        <tr>
+            <td>@reservation.User</td>
+            <td>@reservation.Machine</td>
+            <td>@reservation.StartTime.ToString("g")</td>
+            <td>@reservation.EndTime.ToString("g")</td>
+            <td>@reservation.Status</td>
+        </tr>
+    }
+    </tbody>
+</table>
