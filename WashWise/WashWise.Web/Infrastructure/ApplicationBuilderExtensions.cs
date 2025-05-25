@@ -55,8 +55,7 @@ namespace WashWise.Web.Infrastructure
 
             var conditions = new List<Condition>
             {
-                new () { Name = "Свободна" },
-                new () { Name = "Заета" },
+                new () { Name = "Изправна" },
                 new () { Name = "Повредена" },
             };
 

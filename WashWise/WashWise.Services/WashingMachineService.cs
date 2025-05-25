@@ -34,7 +34,7 @@ namespace WashWise.Services
 
         public async Task CreateAsync(WashingMachine machine)
         {
-            var condition = await _conditionService.GetByNameAsync("свободна");
+            var condition = await _conditionService.GetByNameAsync("Изправна");
 
             if (condition == null) return;
 

@@ -58,14 +58,14 @@ namespace WashWise.Services
                 return false;
             }
 
-            var freeCondition = await _conditionService.GetByNameAsync("Свободна");
+            var fineCondition = await _conditionService.GetByNameAsync("Изправна");
 
-            if (freeCondition == null)
+            if (fineCondition == null)
             {
                 return false;
             }
 
-            washingMachine.ConditionId = freeCondition.Id;
+            washingMachine.ConditionId = fineCondition.Id;
             await _dbContext.SaveChangesAsync();
 
             return true;
