@@ -21,6 +21,7 @@ namespace WashWise.Web.MappingConfiguration
 
             CreateMap<WashingMachine, WashingMachineAvailabilityViewModel>()
                 .ForMember(dest => dest.WashingMachineId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ConditionId, opt => opt.MapFrom(src => src.ConditionId))
                 .ForMember(dest => dest.MachineModel, opt => opt.MapFrom(src => src.Model));
 
             CreateMap<Reservation, MyReservationViewModel>()

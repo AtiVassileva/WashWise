@@ -1,4 +1,6 @@
-﻿@model IEnumerable<WashingMachineAvailabilityViewModel>
+﻿@using WashWise.Services.Contracts
+@model IEnumerable<WashingMachineAvailabilityViewModel>
+@inject IConditionService ConditionService
 
 <p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
     Налични перални
@@ -8,17 +10,21 @@
     <thead>
         <tr>
             <th>Модел</th>
+            <th>Състояние</th>
             <th>Действие</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var machine in Model)
         {
+            var condition = await ConditionService.GetByIdAsync(machine.ConditionId);
             <tr>
                 <td>@machine.MachineModel</td>
+                <td>@condition?.Name</td>
                 <td>
                     <form asp-controller="Reservations" asp-action="Create" method="post">
                         <input type="hidden" name="machineId" value="@machine.WashingMachineId" />
+                        <input type="hidden" name="conditionId" value="@machine.ConditionId" />
                         <button type="submit" class="btn btn-success" style="color: #fff">Резервирай</button>
                     </form>
                 </td>

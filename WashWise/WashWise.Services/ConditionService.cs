@@ -14,9 +14,13 @@ namespace WashWise.Services
             _dbContext = dbContext;
         }
 
+        public async Task<Condition?> GetByIdAsync(Guid id)
+            => await _dbContext.Conditions.FirstOrDefaultAsync(c => c.Id == id);
+
         public async Task<Condition?> GetByNameAsync(string name)
             => await _dbContext.Conditions.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
 
-        public async Task<List<Condition>> GetAllAsync() => await _dbContext.Conditions.ToListAsync();
+        public async Task<List<Condition>> GetAllAsync() 
+            => await _dbContext.Conditions.ToListAsync();
     }
 }

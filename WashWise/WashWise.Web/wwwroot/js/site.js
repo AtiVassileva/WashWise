@@ -115,3 +115,28 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const filter = document.getElementById('isResolvedFilter');
+
+    if (filter) {
+        filter.addEventListener('change', function () {
+            const selectedValue = this.value;
+            const rows = document.querySelectorAll('table tbody tr');
+
+            rows.forEach(row => {
+                const isResolved = row.getAttribute('data-is-resolved');
+
+                if (selectedValue === 'all') {
+                    row.style.display = '';
+                } else if (selectedValue === 'resolved' && isResolved === 'true') {
+                    row.style.display = '';
+                } else if (selectedValue === 'unresolved' && isResolved === 'false') {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
