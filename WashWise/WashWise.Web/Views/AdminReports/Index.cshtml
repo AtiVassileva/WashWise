@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using WashWise.Models
+@model IEnumerable<Report>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Докладвани повреди
+</p>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Машина</th>
+        <th>Описание</th>
+        <th>Статус</th>
+        <th>Автор</th>
+        <th>Докладвано на</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var report in Model)
+    {
+        <tr>
+            <td>@report.WashingMachine.Model</td>
+            <td>@(report.Description[..40] + "...")</td>
+            <td>@(report.IsResolved ? "Решена" : "Нерешена")</td>
+            <td>@(report.Author?.Email)</td>
+            <td>@report.GeneratedAt.ToString("dd.MM.yyyy HH:mm")</td>
+            <td>
+                <a class="btn btn-info btn-sm" asp-controller="AdminReports" asp-action="Details" asp-route-reportId="@report.Id" style="color: #fff">Виж детайли</a>
+
+                @if (!report.IsResolved)
+                {
+                    <a asp-controller="AdminReports" asp-action="ResolveReport" asp-route-reportId="@report.Id" class="btn btn-success btn-sm text-white">Маркирай като решена
+                    </a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

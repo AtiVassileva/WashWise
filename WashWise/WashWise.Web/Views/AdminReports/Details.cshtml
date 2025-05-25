@@ -1,0 +1,18 @@
+﻿@using WashWise.Models
+
+@model Report
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex">
+    Детайли за повреда
+    @if (!Model.IsResolved)
+    {
+        <a class=" btn btn-lg btn-success text-white text-sm fw-semibold" asp-controller="AdminReports" asp-action="ResolveReport" asp-route-reportId="@Model.Id" style="color: #fff; margin-left: 10px;">Маркирай като решена</a>
+    }
+</p>
+<p><strong>Машина:</strong> @Model.WashingMachine.Model</p>
+<p><strong>Описание:</strong> @Model.Description</p>
+<p><strong>Статус:</strong> @(Model.IsResolved ? "Решена" : "Нерешена")</p>
+<p><strong>Автор:</strong> @Model.Author?.Email</p>
+<p><strong>Докладвано на:</strong> @Model.GeneratedAt.ToString("dd.MM.yyyy")</p>
+
+<a class="btn btn-secondary" asp-controller="AdminReports" asp-action="Index" style="color: #fff;">Назад</a>

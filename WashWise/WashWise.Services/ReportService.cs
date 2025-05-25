@@ -22,11 +22,53 @@ namespace WashWise.Services
             _reservationService = reservationService;
         }
 
+        public async Task<IEnumerable<Report>> GetAllAsync() 
+            => await _dbContext.Reports
+                .Include(r => r.Author)
+                .Include(r => r.WashingMachine)
+                .OrderByDescending(r => r.GeneratedAt)
+                .ToListAsync();
+
+        public async Task<Report?> GetByIdAsync(Guid id) 
+            => await _dbContext.Reports
+                .Include(r => r.Author)
+                .Include(r => r.WashingMachine)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
         public async Task<IEnumerable<Report>> GetUserReports(string userId)
-        {
-            return await _dbContext.Reports
+            => await _dbContext.Reports
                 .Where(r => r.AuthorId == userId)
                 .ToListAsync();
+
+        public async Task<bool> MarkAsResolved(Guid id)
+        {
+            var report = await GetByIdAsync(id);
+
+            if (report == null)
+            {
+                return false;
+            }
+
+            report.IsResolved = true;
+
+            var washingMachine = await _washingMachineService.GetByIdAsync(report.WashingMachineId);
+
+            if (washingMachine == null)
+            {
+                return false;
+            }
+
+            var freeCondition = await _conditionService.GetByNameAsync("Свободна");
+
+            if (freeCondition == null)
+            {
+                return false;
+            }
+
+            washingMachine.ConditionId = freeCondition.Id;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task ReportBreakdownAsync(Report report)
@@ -48,11 +90,6 @@ namespace WashWise.Services
                 .ForEach(r => r.StatusId = cancelledStatus!.Id);
 
             await _dbContext.SaveChangesAsync();
-            
-            //await _notifier.NotifyAdminsAsync(
-            //    subject: $"[WashWise] Повреда на пералня {machine.Model}",
-            //    message: $"Потребител {report.UserId} докладва: {report.Description}"
-            //);
         }
 
         public async Task DeleteUserReports(string userId)
