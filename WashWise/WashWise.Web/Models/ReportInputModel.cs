@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static WashWise.Models.Common.Constants;
 
 namespace WashWise.Web.Models
 {
@@ -8,7 +9,7 @@ namespace WashWise.Web.Models
         public Guid WashingMachineId { get; set; }
 
         [Required(ErrorMessage = "Описанието е задължително!")]
-        [StringLength(1000, ErrorMessage = "Описанието може да е максимум 1000 символа.")]
+        [StringLength(DescriptionMaxLength, ErrorMessage = "Описанието може да е максимум 2000 символа!")]
         [Display(Name = "Описание на проблема")]
         public string Description { get; set; } = null!;
 
