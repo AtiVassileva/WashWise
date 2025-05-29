@@ -60,6 +60,22 @@ namespace WashWise.Services
 
             if (machine == null) return false;
 
+            var machineReports = _dbContext.Reports
+                .Where(r => r.WashingMachineId == id);
+
+            if (machineReports.Any())
+            {
+                _dbContext.Reports.RemoveRange(machineReports);
+            }
+
+            var machineReservations = _dbContext.Reservations
+                .Where(r => r.WashingMachineId == id);
+
+            if (machineReservations.Any())
+            {
+                _dbContext.Reservations.RemoveRange(machineReservations);
+            }
+
             _dbContext.WashingMachines.Remove(machine);
             await _dbContext.SaveChangesAsync();
             return true;

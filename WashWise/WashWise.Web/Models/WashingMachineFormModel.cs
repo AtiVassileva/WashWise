@@ -16,6 +16,8 @@ namespace WashWise.Web.Models
         [Required]
         public Guid ConditionId { get; set; }
 
+        public int? VersionNo { get; set; }
+
         public List<SelectListItem> Buildings { get; set; } = new();
         public List<SelectListItem> Conditions { get; set; } = new();
     }

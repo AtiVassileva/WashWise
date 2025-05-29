@@ -64,6 +64,14 @@ namespace WashWise.Services
                 return;
             }
 
+            var washingMachines = _dbContext.WashingMachines
+                .Where(wm => wm.BuildingId == id);
+
+            if (washingMachines.Any())
+            {
+                _dbContext.WashingMachines.RemoveRange(washingMachines);
+            }
+
             _dbContext.Buildings.Remove(building);
             await _dbContext.SaveChangesAsync();
         }

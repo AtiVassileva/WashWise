@@ -32,7 +32,7 @@ namespace WashWise.Data
                 .HasMany(b => b.WashingMachines)
                 .WithOne(wm => wm.Building)
                 .HasForeignKey(wm => wm.BuildingId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<WashingMachine>()
                 .HasOne(w => w.Building)
@@ -47,31 +47,32 @@ namespace WashWise.Data
             builder.Entity<WashingMachine>()
                 .HasMany(w => w.Reports)
                 .WithOne(r => r.WashingMachine)
-                .HasForeignKey(r => r.WashingMachineId);
+                .HasForeignKey(r => r.WashingMachineId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Reservation>()
                 .HasOne(r => r.User)
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Reservation>()
                 .HasOne(r => r.WashingMachine)
                 .WithMany(w => w.Reservations)
                 .HasForeignKey(r => r.WashingMachineId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Report>()
                 .HasOne(r => r.WashingMachine)
                 .WithMany(w => w.Reports)
                 .HasForeignKey(r => r.WashingMachineId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Report>()
                 .HasOne(r => r.Author)
                 .WithMany()
                 .HasForeignKey(r => r.AuthorId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Building>()
                 .Property(e => e.VersionNo)

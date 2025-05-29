@@ -106,10 +106,12 @@ namespace WashWise.Services
             var endTime = startTime.AddHours(1);
 
             return !await _dbContext.Reservations
+                .Include(r => r.Status)
                 .AnyAsync(r =>
                     r.WashingMachineId == machineId &&
                     r.StartTime < endTime &&
-                    r.EndTime > startTime);
+                    r.EndTime > startTime &&
+                    r.Status.Name == "Активна" || r.Status.Name == "Предстояща");
         }
 
         public async Task<bool> ReserveAsync(Guid washingMachineId, DateTime startTime, string userId)

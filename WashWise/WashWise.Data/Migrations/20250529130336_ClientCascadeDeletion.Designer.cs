@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WashWise.Data;
 
@@ -11,9 +12,11 @@ using WashWise.Data;
 namespace WashWise.Data.Migrations
 {
     [DbContext(typeof(WashWiseDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250529130336_ClientCascadeDeletion")]
+    partial class ClientCascadeDeletion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -586,13 +589,13 @@ namespace WashWise.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("WashWise.Models.WashingMachine", "WashingMachine")
                         .WithMany("Reports")
                         .HasForeignKey("WashingMachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -611,13 +614,13 @@ namespace WashWise.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("WashWise.Models.WashingMachine", "WashingMachine")
                         .WithMany("Reservations")
                         .HasForeignKey("WashingMachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Status");
@@ -632,7 +635,7 @@ namespace WashWise.Data.Migrations
                     b.HasOne("WashWise.Models.Building", "Building")
                         .WithMany("WashingMachines")
                         .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("WashWise.Models.Condition", "Condition")

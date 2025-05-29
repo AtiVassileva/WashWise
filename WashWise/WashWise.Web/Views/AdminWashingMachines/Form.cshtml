@@ -10,10 +10,8 @@
 </p>
 
 <form asp-action="@action" method="post">
-    @if (Model is not null && Model.Id != Guid.Empty)
-    {
-        <input type="hidden" asp-for="Id" />
-    }
+   <input type="hidden" asp-for="Id" />
+   <input type="hidden" asp-for="VersionNo" />
 
     <div class="form-group">
         <label asp-for="MachineModel">Модел</label>
