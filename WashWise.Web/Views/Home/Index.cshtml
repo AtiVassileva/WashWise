@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Начало";
+}
+
+<div class="overflow-hidden position-relative">
+    <img src="~/img/bg/bg4.jpg" class="position-absolute z-n1 top-0 h-100 w-100 object-fit-cover" alt="Meeting">
+
+    <div class="overlay position-absolute z-n1 top-0 h-100 w-100 bg-dark"
+         style="opacity: 0.85; mix-blend-mode: multiply; filter: contrast(1.15) brightness(0.85);">
+    </div>
+
+    <div class="home-container">
+        <div class="min-vh-100 row align-items-center">
+            <div class="col-12 col-xl-8">
+                <div class="pt-9 pt-md-10 pt-xl-11 pb-7 pb-md-8 pb-xl-9 max-w-2xl mx-auto mx-xl-0">
+                    <div class="mt-4 pt-2">
+                        <div class="text-center text-xl-start" style="margin-left: 22rem !important; width: 100% !important;">
+                            <h1 class="m-0 text-white tracking-tight fw-bold" data-aos-delay="0" data-aos="fade" data-aos-duration="3000" style="text-align: center !important">
+                                Добре дошли в WashWise!
+                            </h1>
+                            <p style="text-align: center !important" class="m-0 mt-4 text-white text-lg leading-8" data-aos-delay="100" data-aos="fade" data-aos-duration="3000">
+                                Умният начин за пране в общежитието.
+                            </p>
+                            <p style="text-align: center !important" class="m-0 text-white text-lg leading-8" data-aos-delay="100" data-aos="fade" data-aos-duration="3000">
+                                Системата за перални, създадена с мисъл за студента.
+                            </p>
+                            <div class="mt-4 pt-3 d-flex align-items-center justify-content-center column-gap-3">
+                                <a asp-controller="WashingMachines" asp-action="SelectBuilding" class="btn btn-lg btn-primary text-white text-sm fw-semibold" data-aos-delay="200" data-aos="fade" data-aos-duration="3000">
+                                    Резервирай пералня
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

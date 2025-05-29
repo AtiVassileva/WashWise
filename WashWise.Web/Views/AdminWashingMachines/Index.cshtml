@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WashingMachineViewModel>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Списък с перални
+    <input type="text" id="machinesInput" class="form-control mb-3" style="margin-left: 10px; width: 70% !important;" placeholder="Търси по модел..." />
+    <a class=" btn btn-lg btn-success text-white text-sm fw-semibold mb-3" asp-action="Create" style="margin-left: 5px;">Добави нова пералня</a>
+</p>
+
+<table class="table" id="machinesTable">
+    <thead>
+        <tr>
+            <th>Модел</th>
+            <th>Блок</th>
+            <th>Състояние</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var machine in Model)
+        {
+            <tr>
+                <td>@machine.Model</td>
+                <td>@machine.BuildingAddress</td>
+                <td>@machine.ConditionName</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@machine.Id" class="btn btn-sm btn-warning" style="color: #fff;">Редактирай</a> |
+                    <a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-name="@($"{machine.Model} - {machine.BuildingAddress}")" data-delete-url="@($"/AdminWashingMachines/Delete/{machine.Id}")" style="color: #fff;">
+                        Изтрий
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

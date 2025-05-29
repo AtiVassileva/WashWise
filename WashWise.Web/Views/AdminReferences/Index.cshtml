@@ -1,0 +1,76 @@
+﻿@using WashWise.Services.Contracts
+@model ReferenceFilterViewModel
+@inject IBuildingService BuildingService
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Справки за пералните машини
+</p>
+
+<form asp-action="GenerateReport" method="post">
+    <div class="form-group">
+        <label>Начална дата:</label>
+        <input type="date" asp-for="StartDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+
+        <label>Крайна дата:</label>
+        <input type="date" asp-for="EndDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" max="@(DateTime.Today.ToString("yyyy-MM-dd"))" />
+    </div>
+    <div class="form-group">
+        <label>Блок:</label>
+        <select asp-for="BuildingId" asp-items="Model.Buildings" class="form-control">
+            <option value="">-- Всички --</option>
+        </select>
+
+        <label>Състояние:</label>
+        <select asp-for="ConditionId" asp-items="Model.Conditions" class="form-control">
+            <option value="">-- Всички --</option>
+        </select>
+    </div>
+    <button class="btn btn-warning text-white mt-2"  type="submit">Генерирай справка</button>
+</form>
+
+@if (Model.Results.Any())
+{
+    <hr />
+    <form asp-action="ExportToCsv" method="get" class="mt-2">
+        <input type="hidden" asp-for="StartDate" />
+        <input type="hidden" asp-for="EndDate" />
+        <input type="hidden" asp-for="BuildingId" />
+        <input type="hidden" asp-for="ConditionId" />
+        <button class="btn btn-info text-white" type="submit">Експортирай в CSV</button>
+    </form>
+    <form method="get" asp-action="ExportToExcel" class="mt-1">
+        <input type="hidden" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        <input type="hidden" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        <input type="hidden" name="buildingId" value="@Model.BuildingId" />
+        <input type="hidden" name="conditionId" value="@Model.ConditionId" />
+
+        <button type="submit" class="btn btn-success text-white">Експортирай в Excel</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Блок</th>
+            <th>Модел</th>
+            <th>Общо часове</th>
+            <th>Брой резервации</th>
+            <th>Брой повреди</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Results)
+        {
+            var building = await BuildingService.GetByIdAsync(item.BuildingId);
+            var buildingName = string.Concat(building?.Name, " - ", building?.Address, " - ", building?.City);
+
+            <tr>
+                <td>@buildingName</td>
+                <td>@item.MachineModel</td>
+                <td>@item.TotalHoursWorked</td>
+                <td>@item.ReservationCount</td>
+                <td>@item.ReportCount</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

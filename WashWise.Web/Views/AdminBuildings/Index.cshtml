@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<BuildingFormViewModel>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Списък с блокове
+    <input type="text" id="buildingInput" class="form-control mb-3" style="margin-left: 10px; width: 70% !important;" placeholder="Търси по блок..." />
+    <a class=" btn btn-lg btn-success text-white text-sm fw-semibold mb-3" asp-action="Create" style="margin-left: 5px;">Добави нов блок</a>
+</p>
+
+<table class="table" id="buildingTable">
+    <thead>
+        <tr>
+            <th>Блок</th>
+            <th>Адрес</th>
+            <th>Град</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var building in Model)
+        {
+            <tr>
+                <td>@building.Name</td>
+                <td>@building.Address</td>
+                <td>@building.City</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@building.Id" style="color: #fff;">Редактирай</a> |
+                    <a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-name="@($"{building.Name} - {building.Address}")" data-delete-url="@($"/AdminBuildings/Delete/{building.Id}")" style="color: #fff;">
+                        Изтрий
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

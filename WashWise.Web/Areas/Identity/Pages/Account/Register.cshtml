@@ -1,0 +1,71 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<div id="contact-us" class="overflow-hidden py-7 py-sm-8">
+    <div class="container">
+        <div class="row gy-5 gx-sm-5">
+            <div class="col-12 col-xl-5 pt-4">
+                <div class="mx-auto max-w-xl text-center text-xl-start">
+                    <p class="m-0 mt-2 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold">
+                        Регистрация
+                    </p>
+                    <p class="text-danger">@TempData["ErrorMessage"]</p>
+                </div>
+
+                <div class="mx-auto max-w-2xl mt-2">
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div class="col-md-12">
+                            <label asp-for="Input.Email" class="form-label text-sm">
+                                Имейл адрес
+                                <span class="text-danger-emphasis">*</span>
+                            </label>
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="Input.Password" class="form-label text-sm">
+                                Парола
+                                <span class="text-danger-emphasis">*</span>
+                            </label>
+                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="Input.ConfirmPassword" class="form-label text-sm">
+                                Повтори паролата
+                                <span class="text-danger-emphasis">*</span>
+                            </label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="current-password" aria-required="true" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 pt-3">
+                            <button id="registerSubmit" type="submit" class="btn btn-lg btn-primary text-white text-sm fw-semibold">
+                                Регистрация
+                            </button>
+                        </div>
+
+                        <div class="col-12" id="yourMessageIsSent"></div>
+                    </form>
+                    <p class="mt-2">
+                        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Вече имате акаунт? Влезте!</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-xl-7 pt-7 pt-xl-0" style="min-height: 450px;">
+                <div class="h-100 position-relative ms-xxl-5">
+                    <img src="~/img/bg/bg9.jpg" style="width: -webkit-fill-available;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

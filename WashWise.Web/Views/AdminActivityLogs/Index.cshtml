@@ -1,0 +1,27 @@
+﻿@using WashWise.Models
+
+@model IEnumerable<ActivityLog>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Журнал на действията
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Таблица</th>
+        <th>Действие</th>
+        <th>Време на операцията</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var log in Model)
+    {
+        <tr>
+            <td>@log.TableName</td>
+            <td>@log.Action</td>
+            <td>@log.Timestamp.ToString("dd.MM.yyyy HH:mm")</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿@model List<UserRoleViewModel>
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Потребители
+    <input type="text" id="searchInput" class="form-control mb-3" style="margin-left: 20px;" placeholder="Търси по имейл..." />
+</p>
+
+<table class="table table-bordered" id="usersTable">
+    <thead>
+        <tr>
+            <th>Потребител</th>
+            <th>Роля</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var submodel in Model)
+        {
+            <tr>
+                <td>@submodel.User.Email</td>
+                <td>@(submodel.IsAdmin ? "Администратор" : "Потребител")</td>
+                <td>
+                    @if (!submodel.IsAdmin)
+                    {
+                        <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#roleModal" data-item-name="@($" потребителя {submodel.User.Email}")" data-role-url="@($"/AdminUsers/MakeAdmin/{submodel.User.Id}")" style="color: #fff;">
+                            Направи админ
+                        </a>
+                        <a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-name="@($" потребителя {submodel.User.Email}")" data-delete-url="@($"/AdminUsers/Delete/{submodel.User.Id}")" style="color: #fff;">
+                            Изтрий
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,38 @@
+﻿@model ReservationViewModel
+
+<p class="m-0 mt-3 text-body-emphasis text-3xl tracking-tight leading-10 fw-bold mb-2 d-flex justify-content-between">
+    Резервирай пералня
+</p>
+
+@if (!string.IsNullOrEmpty(TempData["SuccessMessage"]?.ToString()))
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-dismiss="alert"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<p><strong>Машина:</strong> @Model.MachineModel</p>
+<p><strong>Локация:</strong> @Model.Location</p>
+
+<label for="reservationDate">Изберете дата:</label>
+<input type="date" id="reservationDate" class="form-control mb-2" value="@Model.Date?.ToString("yyyy-MM-dd")" min="@(DateTime.Today.ToString("yyyy-MM-dd"))" />
+
+<div id="slotsContainer">
+    @await Html.PartialAsync("_ReservationSlotsPartial", Model.ReservationSlots)
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("reservationDate").addEventListener("change", function () {
+            const selectedDate = this.value;
+            const machineId = "@Model.WashingMachineId";
+
+            fetch(`/Reservations/GetSlots?machineId=${machineId}&date=${selectedDate}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("slotsContainer").innerHTML = html;
+                });
+        });
+    </script>
+}
